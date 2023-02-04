@@ -20,6 +20,10 @@ moveMouse,
 raycaster,
 draggableObject;
 
+
+const width_floor = 50 * (7 + 1) // 7 bc days in a week
+const depth_floor = 50 * (52 + 1) // 52 bc weeks in a year
+
 // Create Scene and lights
 function init() {
   // SCENE
@@ -62,7 +66,7 @@ function init() {
 
   // FLOOR
   let floor = new THREE.Mesh(
-    new THREE.BoxBufferGeometry(400, 3, 2650),
+    new THREE.BoxBufferGeometry(width_floor, 3, depth_floor),
     new THREE.MeshPhongMaterial({ color: 0x1b8f06 })
   );
   floor.isDraggable = false;
@@ -145,15 +149,23 @@ const makeDraggable = () => {
   (function () {
     init();
     // Adding multiple objects
+    let width_building = 50;
+    let depth_building = 50;
+
+    // for (var row = -(depth_floor/2)+depth_building; row <= (depth_floor/2)-depth_building; row += 50) {
+    //   addObject(50, 500, { x: 50, y: 250, z: row }, "#FF0000");
+    // }
+    // for (var col = -(width_floor/2)+width_building; col <= (width_floor/2)-width_building; col += 50) {
+    //   addObject(50, Math.floor(Math.random() * 10) * 100, { x: col, y: 250, z: 0 }, "#FF0000");
+    // }
+    for (var row = -(depth_floor/2)+depth_building; row <= (depth_floor/2)-depth_building; row += 50) {
+      for (var col = -(width_floor/2)+width_building; col <= (width_floor/2)-width_building; col += 50) {
+        let rand_num = Math.floor(Math.random() * 10) * 100;
+        let rand_color = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
+        addObject(50, rand_num, { x: col, y: rand_num/2, z: row }, rand_color);
+      }
+    }
     
-    for (var row = -1275; row <= 1275; row += 50) {
-      addObject(50, 500, { x: 50, y: 250, z: row }, "#FF0000");
-    }
-    for (var col = -175; col <= 175; col += 50) {
-      addObject(50, 500, { x: col, y: 250, z: 0 }, "#FF0000");
-    }
-    // addObject(50, 300, { x: 50, y: 150, z: -1250 }, "#313DF8");
-    // addObject(50, 700, { x: 100, y: 350, z: 0 }, "#000000");
     animate();
   })();
 }
