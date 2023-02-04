@@ -66,8 +66,8 @@ function init() {
 
   // FLOOR
   let floor = new THREE.Mesh(
-    new THREE.BoxBufferGeometry(width_floor, 3, depth_floor),
-    new THREE.MeshPhongMaterial({ color: 0x1b8f06 })
+    new THREE.BoxBufferGeometry(width_floor, 100, depth_floor),
+    new THREE.MeshPhongMaterial({ color: '#000000' })
   );
   floor.isDraggable = false;
   scene.add(floor);
@@ -149,20 +149,19 @@ const makeDraggable = () => {
   (function () {
     init();
     // Adding multiple objects
-    let width_building = 50;
-    let depth_building = 50;
-
-    // for (var row = -(depth_floor/2)+depth_building; row <= (depth_floor/2)-depth_building; row += 50) {
-    //   addObject(50, 500, { x: 50, y: 250, z: row }, "#FF0000");
-    // }
-    // for (var col = -(width_floor/2)+width_building; col <= (width_floor/2)-width_building; col += 50) {
-    //   addObject(50, Math.floor(Math.random() * 10) * 100, { x: col, y: 250, z: 0 }, "#FF0000");
-    // }
+    let width_building = 10;
+    let depth_building = 10;
     for (var row = -(depth_floor/2)+depth_building; row <= (depth_floor/2)-depth_building; row += 50) {
       for (var col = -(width_floor/2)+width_building; col <= (width_floor/2)-width_building; col += 50) {
-        let rand_num = Math.floor(Math.random() * 10) * 100;
-        let rand_color = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
-        addObject(50, rand_num, { x: col, y: rand_num/2, z: row }, "#0000ff");
+        if (Math.random() > 0.3) {
+          console.log('hi');
+          addObject(50, 0, { x: col, y: 0, z: row }, "#1DA1F2");
+        } else {
+          let rand_num = Math.floor(Math.random() * 1000) * 0.5;
+          let rand_color = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
+          addObject(50, rand_num, { x: col, y: rand_num/2, z: row }, "#1DA1F2");
+        }
+
       }
     }
     
