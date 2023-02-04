@@ -162,7 +162,7 @@ const makeDraggable = () => {
       for (var col = -(width_floor/2)+width_building; col <= (width_floor/2)-width_building; col += 50) {
         let rand_num = Math.floor(Math.random() * 10) * 100;
         let rand_color = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
-        addObject(50, rand_num, { x: col, y: rand_num/2, z: row }, rand_color);
+        addObject(50, rand_num, { x: col, y: rand_num/2, z: row }, "#0000ff");
       }
     }
     
