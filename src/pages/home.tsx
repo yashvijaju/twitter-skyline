@@ -44,6 +44,8 @@ export async function getServerSideProps() {
     if (curr_country["parentid"] != 1 && curr_country["country"] != '') countries_map.set(curr_country["country"],curr_country["parentid"])
   })
 
+  countries_map = new Map([...countries_map.entries()].sort());
+
   // Pass data to the page via props
   return {
     props: {
@@ -81,8 +83,6 @@ export default function Home({ countries }) {
       if (vantaEffect) vantaEffect.destroy();
     };
   }, [vantaEffect]);
-
-  console.log(countries)
 
   return (
     <>
