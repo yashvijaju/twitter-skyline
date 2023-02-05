@@ -8,6 +8,9 @@ import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { useEffect } from 'react';
 import axios from 'axios';
+import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass';
+import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer';
+import {UnrealBloomPass} from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 
 const inter = Inter({ subsets: ['latin'] })
 const loader = new FontLoader();
@@ -36,7 +39,8 @@ controls,
 clickMouse,
 moveMouse,
 raycaster,
-draggableObject;
+draggableObject,
+composer;
 
 
 const width_floor = 50 * (5 + 1) // 7 bc days in a week
@@ -60,12 +64,25 @@ function init() {
   camera.zoom = 0.7;
   camera.updateProjectionMatrix();
 
+
   // RENDERER
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.shadowMap.enabled = true;
   document.body.appendChild(renderer.domElement);
+
+  // UNREAL BLOOM PASS
+  const renderScene = new RenderPass(scene, camera);
+  composer = new EffectComposer(renderer);
+  composer.addPass(renderScene);
+  const bloomPass = new UnrealBloomPass(
+    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    1.6, 
+    0,
+    0.8
+  );
+  composer.addPass(bloomPass);
 
   // CAMERA MOVEMENT CONTROLS
   controls = new OrbitControls(camera, renderer.domElement);
@@ -166,7 +183,8 @@ const makeDraggable = () => {
   // Recursive function to render the scene
   function animate() {
     controls.update();
-    renderer.render(scene, camera);
+    // renderer.render(scene, camera);
+    composer.render();
     requestAnimationFrame(animate);
   }
 
