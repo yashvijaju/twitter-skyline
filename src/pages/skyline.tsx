@@ -236,7 +236,7 @@ export default function Home({ trends, country }) {
     });
 
     // ReDirect user
-    window.addEventListener("click", async (event) => {
+    window.addEventListener("click", (event) => {
       objectClicked.x = (event.clientX / window.innerWidth) * 2 - 1;
       objectClicked.y = -(event.clientY / window.innerHeight) * 2 + 1;
       raycaster.setFromCamera(objectClicked , camera);
@@ -244,8 +244,7 @@ export default function Home({ trends, country }) {
       if (found.length && found[0].object.userData.url) {
         console.log(found[0].object.userData);
         // window.open(found[0].object.userData.url);
-        const tweetUrl = await getSearchTweets(found[0].object.userData.name);
-        alert(tweetUrl)
+        const tweetUrl = getSearchTweets(found[0].object.userData.name);
         found[0].object.userData['tweetUrl'] = tweetUrl;
         setModal(true);
         setModalData(found[0].object.userData);
