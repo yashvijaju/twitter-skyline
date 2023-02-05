@@ -15,7 +15,7 @@ export default function Modal({props}) {
             <div className='content'>
               <Typography variant="h6" component="h1" gutterBottom sx={{color: 'white'}}>
                 Trending: {name}<br/>
-                {Math.floor(volume*1000)}%
+                Volume: {Math.floor(volume*1000)}%
               </Typography>
               <a target="_blank" href={url} rel="noopener noreferrer" style={{textDecoration: 'none'}}>
                 <Button variant="contained" sx={{height: '100%', backgroundColor: "#3fa4ff", fontSize: "15px"}}>Go to Twitter ↳</Button>

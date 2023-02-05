@@ -307,6 +307,11 @@ export default function Home({ trends, country }) {
           <Typography variant="h4" component="h1" gutterBottom sx={{color: 'white'}}>
             {country}
           </Typography>
+          <br/>
+          <Typography variant="body1" component="h1" gutterBottom sx={{color: 'white', marginTop: '-20px', fontStyle: 'italic'}}>
+            This is a skyline visualization of the trending tweets in {country} today. 
+            <br/>Click on a tower to see more info!
+          </Typography>
       </Container>
       {modal ? <Modal props={modalData}/> : <></>}
       <Typography variant="body1" component="h1" gutterBottom sx={{color: 'white', position: "fixed", bottom: 20, left: 20}}>
