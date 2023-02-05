@@ -32,12 +32,14 @@ function init() {
 
   // CAMERA
   camera = new THREE.PerspectiveCamera(
-    50,
+    60,
     window.innerWidth / window.innerHeight,
     0.1,
-    5000
+    3500
   );
-  camera.position.set(-80, 100, 200);
+  camera.position.set(450, 200, 50);
+  camera.zoom = 0.7;
+  camera.updateProjectionMatrix();
 
   // RENDERER
   renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -48,16 +50,20 @@ function init() {
 
   // CAMERA MOVEMENT CONTROLS
   controls = new OrbitControls(camera, renderer.domElement);
-  controls.target.set(0, 55, 0);
+  controls.target.set( 0, 0.5, 0 )
   controls.enableDamping = true;
   controls.update();
 
   // LIGHTS
-  let ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+  let ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
   let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(-30, 50, 150);
+  let directionalLight_2 = new THREE.DirectionalLight(0xffffff, 1);
+  // directionalLight.position.set(-30, 50, 150);
+  directionalLight.position.set(0.3, 0.5, 0.3);
+  directionalLight_2.position.set(-0.3, 0.5, 0.3);
   scene.add(ambientLight);
   scene.add(directionalLight);
+  scene.add(directionalLight_2);
 
   // RAYCASTING (mouse functionality)
   raycaster = new THREE.Raycaster();
@@ -172,7 +178,7 @@ const makeDraggable = () => {
 export default function Home() {
   useEffect(makeDraggable);
   return (
-    <main className={styles.main}>
-    </main>
+    <div>
+    </div>
   )
 }
