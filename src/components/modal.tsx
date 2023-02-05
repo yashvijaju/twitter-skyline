@@ -36,8 +36,8 @@ export default function Modal({props}) {
               <Typography variant="h6" component="h1" gutterBottom sx={{color: 'white'}}>
               Trending: {name}
             </Typography>
-                {url}
-                {tweetUrl}
+                {/* {url}
+                {tweetUrl} */}
             </div>
         </div>  
     </>

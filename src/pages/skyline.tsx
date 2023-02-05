@@ -21,9 +21,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export async function getSearchTweets(trend) {
   // Fetch data from external API
-  const cors = `https://cors-anywhere.herokuapp.com/`
   const url = `https://api.twitter.com/1.1/search/tweets.json`;
-  const res = await axios.get(cors+url, {
+  const res = await axios.get(url, {
     headers: {
       Authorization: `Bearer ${process.env.AUTH_BEARER}`
     },
@@ -33,11 +32,9 @@ export async function getSearchTweets(trend) {
   });
 
   console.log('hello', res);
+  console.log('result', res.data.statuses[0].id);
 
-  return {
-    test: {
-      trends: res.data[0].statuses[0].urls[0].url,
-    }}
+  return res.data.statuses[0].id;
 }
 
 
@@ -249,7 +246,7 @@ export default function Home({ trends, country }) {
       if (found.length && found[0].object.userData.url) {
         console.log(found[0].object.userData);
         // window.open(found[0].object.userData.url);
-        const tweetUrl = getSearchTweets(found[0].object.userData);
+        const tweetUrl = getSearchTweets(found[0].object.userData.name);
         found[0].object.userData['tweetUrl'] = tweetUrl;
         setModal(true);
         setModalData(found[0].object.userData);
