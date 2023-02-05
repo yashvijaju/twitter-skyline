@@ -5,10 +5,24 @@ import styles from '../app/page.module.css';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { useEffect } from 'react';
-
-
+import axios from 'axios';
 
 const inter = Inter({ subsets: ['latin'] })
+
+// Fetch Data from Twitter API
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const url = `https://api.twitter.com/1.1/trends/place.json?id=2211096`
+  const res = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${process.env.AUTH_BEARER}`
+    }
+  });
+
+  // Pass data to the page via props
+  return {props: {trends: res.data[0].trends}}
+}
+
 
 // Global variables
 let scene,
@@ -169,7 +183,8 @@ const makeDraggable = () => {
   })();
 }
 
-export default function Home() {
+export default function Home({ trends }) {
+  console.log(trends);
   useEffect(makeDraggable);
   return (
     <main className={styles.main}>
