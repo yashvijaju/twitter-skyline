@@ -15,6 +15,8 @@ import Script from 'next/script';
 import GLOBE from "../app/vanta.globe.min.js";
 import { useRef, useState, useEffect } from "react";
 import * as THREE from 'three';
+import { arrayBuffer } from 'stream/consumers';
+import { count } from 'console';
 
 
 let theme = createTheme({
@@ -37,10 +39,15 @@ export async function getServerSideProps() {
     }
   });
 
+  var countries_map = new Map();
+  res.data.forEach(function (curr_country) {
+    if (curr_country["parentid"] != 1 && curr_country["country"] != '') countries_map.set(curr_country["country"],curr_country["parentid"])
+  })
+
   // Pass data to the page via props
   return {
     props: {
-      countries: Array.from(new Set(res.data.map((item) => { return {country: item.country, woeid: item.parentid}})))
+      countries: Array.from(countries_map)
     }
   };
 }
@@ -99,19 +106,21 @@ export default function Home({ countries }) {
             justifyContent: 'left',
             marginLeft: '-20px',
           }}>
-            <FormControl fullWidth sx={{color: 'white', width: '500px', marginRight: '20px'}}>
+            <FormControl fullWidth sx={{color: 'white', width: '500px', marginRight: '20px', position: 'relative'}}>
               <InputLabel id="demo-simple-select-label" sx={{color: 'white'}}>{selectedCountry == 0 ? "Select a Country: " : ""}</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 sx={{border: '5px solid #3FA4FF', color: 'white' }}
+                onChange={(e) => {setSelectedCountry(e.target.value)}}
+                value={selectedCountry == 0 ? null : selectedCountry}
               >
-                {countries.map((country) => {
-                    <MenuItem value={10} onClick={()=>{setSelectedCountry(country["woeid"])}}>{country["country"]}</MenuItem>
-                })}
+                {countries.map((country) => (
+                    <MenuItem value={country[1]}>{country[0]}</MenuItem>
+                ))}
               </Select>
             </FormControl>
-            <Link href={"/skyline?country="+selectedCountry} passHref>
+            <Link href={"/skyline?country="+selectedCountry} passHref style={{textDecoration: 'none'}}>
               <Button variant="contained" sx={{height: '100%', backgroundColor: "#3fa4ff"}}>↳</Button>
             </Link>
           </Container>

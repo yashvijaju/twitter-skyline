@@ -17,9 +17,9 @@ const loader = new FontLoader();
 
 
 // Fetch Data from Twitter API
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
   // Fetch data from external API
-  const url = `https://api.twitter.com/1.1/trends/place.json?id=2282863`
+  const url = `https://api.twitter.com/1.1/trends/place.json?id=`+context["query"]["country"]
   const res = await axios.get(url, {
     headers: {
       Authorization: `Bearer ${process.env.AUTH_BEARER}`
