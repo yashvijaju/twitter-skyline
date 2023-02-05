@@ -99,7 +99,7 @@ export default function Home({ countries }) {
         }}>
          
           <Typography variant="h4" component="h1" gutterBottom sx={{color: 'white'}}>
-            Your Country's Tweets in 3D
+            Your Country's Trending Tweets in 3D
           </Typography>
           <Container sx={{
             display: 'flex',
