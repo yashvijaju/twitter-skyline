@@ -1,14 +1,11 @@
 "use client"
 import * as React from 'react';
-import { useEffect } from "react";
+import Router, { withRouter } from 'next/router'
 
 
 export default function Home() {
 
-
-  useEffect(() => {
-    window.location.replace("/home")
-  }, []);
+  window.location.replace("/home")
 
   return (
     <> 
