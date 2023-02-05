@@ -3,7 +3,7 @@ import * as React from 'react';
 import Router, { withRouter } from 'next/router'
 import Typography from '@mui/material/Typography';
 import './modal.css';
-import axios from 'axios';
+// import axios from 'axios';
 
 // export async function getSearchTweets(trend) {
 //   // Fetch data from external API
@@ -27,7 +27,7 @@ import axios from 'axios';
 // }
 
 export default function Modal({props}) {
-    const {name, url, tweetUrl} = props;
+    const {name, url} = props;
   return (
     <>
         <div className='modal' />
@@ -37,7 +37,7 @@ export default function Modal({props}) {
               Trending: {name}
             </Typography>
                 {url}
-                {tweetUrl}
+                {/* {tweetUrl} */}
             </div>
         </div>  
     </>

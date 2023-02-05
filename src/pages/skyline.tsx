@@ -19,26 +19,26 @@ import Modal from '../components/modal';
 const inter = Inter({ subsets: ['latin'] })
 
 
-export async function getSearchTweets(trend) {
-  // Fetch data from external API
-  const cors = `https://cors-anywhere.herokuapp.com/`
-  const url = `https://api.twitter.com/1.1/search/tweets.json`;
-  const res = await axios.get(cors+url, {
-    headers: {
-      Authorization: `Bearer ${process.env.AUTH_BEARER}`
-    },
-    params: {
-      'q': trend
-    }
-  });
+// export async function getSearchTweets(trend) {
+//   // Fetch data from external API
+//   const cors = `https://cors-anywhere.herokuapp.com/`
+//   const url = `https://api.twitter.com/1.1/search/tweets.json`;
+//   const res = await axios.get(cors+url, {
+//     headers: {
+//       Authorization: `Bearer ${process.env.AUTH_BEARER}`
+//     },
+//     params: {
+//       'q': trend
+//     }
+//   });
 
-  console.log('hello', res);
+//   console.log('hello', res);
 
-  return {
-    test: {
-      trends: res.data[0].statuses[0].urls[0].url,
-    }}
-}
+//   return {
+//     test: {
+//       trends: res.data[0].statuses[0].urls[0].url,
+//     }}
+// }
 
 
 // Fetch Data from Twitter API
@@ -249,8 +249,8 @@ export default function Home({ trends, country }) {
       if (found.length && found[0].object.userData.url) {
         console.log(found[0].object.userData);
         // window.open(found[0].object.userData.url);
-        const tweetUrl = getSearchTweets(found[0].object.userData);
-        found[0].object.userData['tweetUrl'] = tweetUrl;
+        // const tweetUrl = getSearchTweets(found[0].object.userData);
+        // found[0].object.userData['tweetUrl'] = tweetUrl;
         setModal(true);
         setModalData(found[0].object.userData);
       } else {
