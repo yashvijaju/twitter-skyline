@@ -189,7 +189,22 @@ const makeDraggable = () => {
   })();
 }
 
+const normalizeData = (trends) => {
+  let sum = 0.1;
+  trends.forEach((trend) => sum += trend.tweet_volume);
+  const normalizedData = trends.map((trend) => {
+    // console.log(`trend: ${trend.name}, vol: ${trend.tweet_volume}, sum: ${sum}`)
+    return {
+      name: trend.name,
+      volume: (trend.tweet_volume / sum) || 0.001,
+      url: trend.url,
+    }
+  });
+  return normalizedData
+}
+
 export default function Home({ trends }) {
+  trends = normalizeData(trends);
   console.log(trends);
   useEffect(makeDraggable);
   return (
