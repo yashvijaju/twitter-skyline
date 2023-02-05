@@ -81,7 +81,7 @@ export default function Home() {
             marginLeft: '-20px',
           }}>
             <FormControl fullWidth sx={{color: 'white', width: '500px', marginRight: '20px'}}>
-              <InputLabel id="demo-simple-select-label" shrink={false} sx={{color: 'white'}}>{selectedCountry == 0 ? "Country" : ""}</InputLabel>
+              <InputLabel id="demo-simple-select-label" sx={{color: 'white'}}>{selectedCountry == 0 ? "Select a Country: " : ""}</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
