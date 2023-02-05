@@ -40,7 +40,7 @@ export async function getServerSideProps() {
   // Pass data to the page via props
   return {
     props: {
-      countries: res.data
+      countries: Array.from(new Set(res.data.map((item) => { return {country: item.country, woeid: item.parentid}})))
     }
   };
 }
@@ -107,9 +107,8 @@ export default function Home({ countries }) {
                 sx={{border: '5px solid #3FA4FF', color: 'white' }}
               >
                 {countries.map((country) => {
-                    {console.log(country["country"])}
                     <MenuItem value={10} onClick={()=>{setSelectedCountry(country["woeid"])}}>{country["country"]}</MenuItem>
-                }) }
+                })}
               </Select>
             </FormControl>
             <Link href={"/skyline?country="+selectedCountry} passHref>
