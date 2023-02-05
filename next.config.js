@@ -9,10 +9,6 @@ const nextConfig = {
     // your project has type errors.
     // !! WARN !!
     ignoreBuildErrors: true,
-  },
-  reactStrictMode: true,
-  env: {
-    AUTH_BEARER: process.env.AUTH_BEARER,
   }
 }
 
