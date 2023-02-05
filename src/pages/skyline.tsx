@@ -40,7 +40,8 @@ clickMouse,
 moveMouse,
 raycaster,
 draggableObject,
-composer;
+composer,
+objectClicked;
 
 
 const width_floor = 50 * (5 + 1) // 7 bc days in a week
@@ -105,6 +106,7 @@ function init() {
   raycaster = new THREE.Raycaster();
   clickMouse = new THREE.Vector2();
   moveMouse = new THREE.Vector2();
+  objectClicked = new THREE.Vector2();
 
   // FLOOR
   let floor = new THREE.Mesh(
@@ -130,6 +132,22 @@ function addObject(x, y, pos, color) {
   object.position.set(pos.x, pos.y, pos.z);
   scene.add(object);
 }
+
+/**
+* Adding a clickable object in the scene
+*
+* @param {number} radius of the object
+* @param {Object} pos object containing position data { x: number, y: number, z: number }
+* @param {Color} color hex code for color of object
+*/
+function addClickableObject(x, y, pos, color, item) {
+  let object = new THREE.Mesh(
+    new THREE.BoxGeometry(x, y, 50),
+    new THREE.MeshPhongMaterial({ color: color })
+  );
+  object.position.set(pos.x, pos.y, pos.z);
+  object.userData = item;
+  scene.add(object);}
 
 /**
 * Checks if the user is 'holding' an object.
@@ -173,6 +191,18 @@ const makeDraggable = () => {
     }
   });
 
+  // ReDirect user
+  window.addEventListener("click", (event) => {
+    objectClicked.x = (event.clientX / window.innerWidth) * 2 - 1;
+    objectClicked.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    raycaster.setFromCamera(objectClicked , camera);
+    const found = raycaster.intersectObjects(scene.children, true);
+    if (found.length) {
+      console.log(found[0].object.userData);
+      window.open(found[0].object.userData.url);
+    }
+  });
+
   // Constantly updates the mouse location for use in `dragObject()`
   window.addEventListener("mousemove", (event) => {
     dragObject(); // Updates the object's postion every time the mouse moves
@@ -204,7 +234,7 @@ const makeDraggable = () => {
           let rand_num = trends_twitter[max_count-1]["volume"]*20000;
           let blue_colors = ["#126ca3", '#1DA1F2']
           let rand_color = Math.floor(Math.random()*2)
-          addObject(50, rand_num, { x: col, y: rand_num/2+50, z: row }, blue_colors[rand_color]);
+          addClickableObject(50, rand_num, { x: col, y: rand_num/2+50, z: row }, blue_colors[rand_color], trends_twitter[max_count-1]);
           max_count--;
         }
       }
