@@ -115,6 +115,7 @@ export default function Home({ trends, country }) {
     controls = new OrbitControls(camera, renderer.domElement);
     controls.target.set( 0, 0.5, 0 )
     controls.enableDamping = true;
+    controls.autoRotate = true;
     controls.update();
 
     // LIGHTS
