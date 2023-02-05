@@ -27,72 +27,69 @@ let theme = createTheme({
   },
 });
 
-theme = createTheme(theme, {
-  palette: {
-    info: {
-      main: theme.palette.secondary.main,
-    },
-  },
-});
-
 
 export default function Home() {
 
-  // const [vantaEffect, setVantaEffect] = useState(0);
-  // const vantaRef = useRef(null);
+  const [vantaEffect, setVantaEffect] = useState(0);
+  const vantaRef = useRef(null);
 
-  // useEffect(() => {
-  //   if (!vantaEffect) {
-  //     setVantaEffect(
-  //       GLOBE({
-  //         el: vantaRef.current,
-  //         THREE: THREE,
-  //         mouseControls: true,
-  //         touchControls: true,
-  //         gyroControls: false,
-  //         minHeight: 200.0,
-  //         minWidth: 200.0,
-  //         scale: 1.0,
-  //         scaleMobile: 1.0,
-  //         color: 0xfff33f
-  //       })
-  //     );
-  //   }
-  //   return () => {
-  //     if (vantaEffect) vantaEffect.destroy();
-  //   };
-  // }, [vantaEffect]);
+  useEffect(() => {
+    if (!vantaEffect) {
+      setVantaEffect(
+        GLOBE({
+          el: vantaRef.current,
+          THREE: THREE,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.0,
+          minWidth: 200.0,
+          scale: 1.0,
+          scaleMobile: 1.0,
+          backgroundColor: 0xf0a2d,
+          color: 0x3fa4ff
+        })
+      );
+    }
+    return () => {
+      if (vantaEffect) vantaEffect.destroy();
+    };
+  }, [vantaEffect]);
 
   return (
-    <Container maxWidth="lg">
-      {/* <div ref={vantaRef} style={{height: "100%", width: "100%", borderWidth: "2px", borderColor:"red"}}/> */}
-      <Box
-        sx={{
-          my: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Typography variant="h4" component="h1" gutterBottom>
-          Your Country's Tweets in 3D
-        </Typography>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            
-            label="Age"
-            
+    <>
+      <div ref={vantaRef} style={{zIndex: -1, position: "fixed", height: "100vh", width: "100vw", top: 0, bottom: 0, borderWidth: "2px", borderColor:"red"}}/>
+      <div style={{zIndex: 2}}>
+        <Container maxWidth="lg">
+          <Box
+            sx={{
+              my: 20,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
           >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-    </Container>
+            <Typography variant="h4" component="h1" gutterBottom sx={{color: 'white'}}>
+              Your Country's Tweets in 3D
+            </Typography>
+            <FormControl fullWidth sx={{color: 'white'}}>
+              <InputLabel id="demo-simple-select-label" sx={{color: 'white'}}>Country</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Country"
+                placeholder='Country'
+                sx={{border: '5px solid #3FA4FF', color: 'white' }}
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </Container>
+      </div>
+    </>
   );
 }
