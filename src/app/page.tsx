@@ -31,7 +31,7 @@ let theme = createTheme({
 
 export default function Home() {
 
-  const [selectedCountry, setSelectedCountry] = useState(2211096);
+  const [selectedCountry, setSelectedCountry] = useState(0);
   const [vantaEffect, setVantaEffect] = useState(0);
   const vantaRef = useRef(null);
 
@@ -81,21 +81,17 @@ export default function Home() {
             marginLeft: '-20px',
           }}>
             <FormControl fullWidth sx={{color: 'white', width: '500px', marginRight: '20px'}}>
-              <InputLabel id="demo-simple-select-label" sx={{color: 'white'}}>Country</InputLabel>
+              <InputLabel id="demo-simple-select-label" shrink={false} sx={{color: 'white'}}>{selectedCountry == 0 ? "Country" : ""}</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                label="Country"
-                placeholder='Country'
                 sx={{border: '5px solid #3FA4FF', color: 'white' }}
               >
-                <MenuItem value={10} onClick={()=>{setSelectedCountry(2211096)}}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={10} onClick={()=>{setSelectedCountry(2211096)}}>India</MenuItem>
               </Select>
             </FormControl>
             <Link href={"/skyline?country="+selectedCountry} passHref>
-              <Button variant="contained" sx={{height: '100%'}}>↳</Button>
+              <Button variant="contained" sx={{height: '100%', backgroundColor: "#3fa4ff"}}>↳</Button>
             </Link>
           </Container>
         </Container>
