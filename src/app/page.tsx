@@ -1,14 +1,15 @@
 "use client"
 import * as React from 'react';
+import Link from 'next/link'
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
+import { FormControl, TextField } from '@mui/material';
+
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import Link from '@mui/material/Link';
 import { createTheme } from '@mui/material/styles';
 import Script from 'next/script';
 import GLOBE from "./vanta.globe.min.js";
@@ -30,6 +31,7 @@ let theme = createTheme({
 
 export default function Home() {
 
+  const [selectedCountry, setSelectedCountry] = useState(2211096);
   const [vantaEffect, setVantaEffect] = useState(0);
   const vantaRef = useRef(null);
 
@@ -60,20 +62,25 @@ export default function Home() {
     <>
       <div ref={vantaRef} style={{zIndex: -1, position: "fixed", height: "100vh", width: "100vw", top: 0, bottom: 0, borderWidth: "2px", borderColor:"red"}}/>
       <div style={{zIndex: 2}}>
-        <Container maxWidth="lg">
-          <Box
-            sx={{
-              my: 20,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <Typography variant="h4" component="h1" gutterBottom sx={{color: 'white'}}>
-              Your Country's Tweets in 3D
-            </Typography>
-            <FormControl fullWidth sx={{color: 'white'}}>
+        <Container  sx={{
+          my: 25,
+          mx: 25,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+        }}>
+         
+          <Typography variant="h4" component="h1" gutterBottom sx={{color: 'white'}}>
+            Your Country's Tweets in 3D
+          </Typography>
+          <Container sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'left',
+            marginLeft: '-20px',
+          }}>
+            <FormControl fullWidth sx={{color: 'white', width: '500px', marginRight: '20px'}}>
               <InputLabel id="demo-simple-select-label" sx={{color: 'white'}}>Country</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -82,12 +89,15 @@ export default function Home() {
                 placeholder='Country'
                 sx={{border: '5px solid #3FA4FF', color: 'white' }}
               >
-                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={10} onClick={()=>{setSelectedCountry(2211096)}}>Ten</MenuItem>
                 <MenuItem value={20}>Twenty</MenuItem>
                 <MenuItem value={30}>Thirty</MenuItem>
               </Select>
             </FormControl>
-          </Box>
+            <Link href={"/skyline?country="+selectedCountry} passHref>
+              <Button variant="contained" sx={{height: '100%'}}>↳</Button>
+            </Link>
+          </Container>
         </Container>
       </div>
     </>
