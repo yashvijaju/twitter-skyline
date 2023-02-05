@@ -14,10 +14,9 @@ import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass';
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer';
 import {UnrealBloomPass} from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 import Modal from '../components/modal';
-
+import '../css/skyline.css'
 
 const inter = Inter({ subsets: ['latin'] })
-
 
 export async function getSearchTweets(trend) {
   // Fetch data from external API
@@ -36,7 +35,6 @@ export async function getSearchTweets(trend) {
 
   return res.data.statuses[0].id;
 }
-
 
 // Fetch Data from Twitter API
 export async function getServerSideProps(context) {
