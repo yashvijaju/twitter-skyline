@@ -151,15 +151,15 @@ const makeDraggable = () => {
     // Adding multiple objects
     let width_building = 10;
     let depth_building = 10;
-    for (var row = -(depth_floor/2)+depth_building; row <= (depth_floor/2)-depth_building; row += 50) {
-      for (var col = -(width_floor/2)+width_building; col <= (width_floor/2)-width_building; col += 50) {
+    for (var row = -(depth_floor/2)+50; row < (depth_floor/2)-depth_building; row += 50) {
+      for (var col = -(width_floor/2)+50; col <= (width_floor/2)-width_building; col += 50) {
         if (Math.random() > 0.3) {
-          console.log('hi');
-          addObject(50, 0, { x: col, y: 0, z: row }, "#1DA1F2");
+          addObject(50, 0, { x: col, y: 50, z: row }, "#000000");
         } else {
           let rand_num = Math.floor(Math.random() * 1000) * 0.5;
-          let rand_color = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
-          addObject(50, rand_num, { x: col, y: rand_num/2+50, z: row }, "#1DA1F2");
+          let blue_colors = ["#126ca3", '#1DA1F2']
+          let rand_color = Math.floor(Math.random()*2)
+          addObject(50, rand_num, { x: col, y: rand_num/2+50, z: row }, blue_colors[rand_color]);
         }
 
       }
