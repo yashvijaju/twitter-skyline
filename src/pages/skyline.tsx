@@ -1,11 +1,11 @@
 "use client"
 import Image from 'next/image';
 import { Inter } from '@next/font/google';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 import styles from '../app/page.module.css';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { FontLoader } from 'three/addons/loaders/FontLoader.js';
-import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { useEffect } from 'react';
 import axios from 'axios';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass';
@@ -13,13 +13,12 @@ import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer';
 import {UnrealBloomPass} from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 
 const inter = Inter({ subsets: ['latin'] })
-const loader = new FontLoader();
 
 
 // Fetch Data from Twitter API
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
   // Fetch data from external API
-  const url = `https://api.twitter.com/1.1/trends/place.json?id=2282863`
+  const url = `https://api.twitter.com/1.1/trends/place.json?id=`+context["query"]["id"]
   const res = await axios.get(url, {
     headers: {
       Authorization: `Bearer ${process.env.AUTH_BEARER}`
@@ -27,7 +26,11 @@ export async function getServerSideProps() {
   });
 
   // Pass data to the page via props
-  return {props: {trends: res.data[0].trends}}
+  return {
+    props: {
+      trends: res.data[0].trends,
+      country: context["query"]["country"].replace("_"," ")
+    }}
 }
 
 
@@ -40,7 +43,8 @@ clickMouse,
 moveMouse,
 raycaster,
 draggableObject,
-composer;
+composer,
+objectClicked;
 
 
 const width_floor = 50 * (5 + 1) // 7 bc days in a week
@@ -65,6 +69,8 @@ const gridHelper = new THREE.GridHelper( 10000, 50, '#3FA4FF', '#3FA4FF' );
 				gridHelper.position.y = - 150;
 				gridHelper.position.x = - 150;
 				scene.add( gridHelper );
+
+  scene.background = new THREE.Color(0xf0a2d);
 
   // CAMERA
   camera = new THREE.PerspectiveCamera(
@@ -93,7 +99,7 @@ const gridHelper = new THREE.GridHelper( 10000, 50, '#3FA4FF', '#3FA4FF' );
     new THREE.Vector2(window.innerWidth, window.innerHeight),
     1.6, 
     0.6,
-    0.6,
+    0.6
   );
   composer.addPass(bloomPass);
 
@@ -118,10 +124,11 @@ const gridHelper = new THREE.GridHelper( 10000, 50, '#3FA4FF', '#3FA4FF' );
   raycaster = new THREE.Raycaster();
   clickMouse = new THREE.Vector2();
   moveMouse = new THREE.Vector2();
+  objectClicked = new THREE.Vector2();
 
   // FLOOR
   let floor = new THREE.Mesh(
-    new THREE.BoxBufferGeometry(width_floor, 100, depth_floor),
+    new THREE.BoxBufferGeometry(width_floor, 150, depth_floor),
     new THREE.MeshPhongMaterial({ color: '#000000' })
   );
   floor.isDraggable = false;
@@ -144,6 +151,22 @@ function addObject(x, y, pos, color) {
   object.position.set(pos.x, pos.y, pos.z);
   scene.add(object);
 }
+
+/**
+* Adding a clickable object in the scene
+*
+* @param {number} radius of the object
+* @param {Object} pos object containing position data { x: number, y: number, z: number }
+* @param {Color} color hex code for color of object
+*/
+function addClickableObject(x, y, pos, color, item) {
+  let object = new THREE.Mesh(
+    new THREE.BoxGeometry(x, y, 50),
+    new THREE.MeshPhongMaterial({ color: color })
+  );
+  object.position.set(pos.x, pos.y, pos.z);
+  object.userData = item;
+  scene.add(object);}
 
 /**
 * Checks if the user is 'holding' an object.
@@ -187,6 +210,18 @@ const makeDraggable = () => {
     }
   });
 
+  // ReDirect user
+  window.addEventListener("click", (event) => {
+    objectClicked.x = (event.clientX / window.innerWidth) * 2 - 1;
+    objectClicked.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    raycaster.setFromCamera(objectClicked , camera);
+    const found = raycaster.intersectObjects(scene.children, true);
+    if (found.length && found[0].object.userData.url) {
+      console.log(found[0].object.userData);
+      window.open(found[0].object.userData.url);
+    }
+  });
+
   // Constantly updates the mouse location for use in `dragObject()`
   window.addEventListener("mousemove", (event) => {
     dragObject(); // Updates the object's postion every time the mouse moves
@@ -212,33 +247,17 @@ const makeDraggable = () => {
     for (var row = -(depth_floor/2)+50; row < (depth_floor/2)-depth_building; row += 75) {
       for (var col = -(width_floor/2)+50; col <= (width_floor/2)-width_building; col += 75) {
         if (Math.random() > 0.45 || max_count==0) {
-          addObject(50, 0, { x: col, y: 50, z: row }, "#000000");
+          addObject(50, 0, { x: col, y: 75, z: row }, "#000000");
         } else {
           // let rand_num = Math.floor(Math.random() * 1000) * 0.5;
           let rand_num = trends_twitter[max_count-1]["volume"]*20000;
           let blue_colors = ["#126ca3", '#1DA1F2']
           let rand_color = Math.floor(Math.random()*2)
-          addObject(50, rand_num, { x: col, y: rand_num/2+50, z: row }, blue_colors[rand_color]);
+          addClickableObject(50, rand_num, { x: col, y: rand_num/2+75, z: row }, blue_colors[rand_color], trends_twitter[max_count-1]);
           max_count--;
         }
       }
-    }
-
-    loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
-
-      const geometry = new TextGeometry( 'Hello three.js!', {
-          font: font,
-          size: 80,
-          height: 5,
-          curveSegments: 12,
-          bevelEnabled: true,
-          bevelThickness: 10,
-          bevelSize: 8,
-          bevelOffset: 0,
-          bevelSegments: 5
-        } );
-    } );
-    
+    }    
     
     animate();
   })();
@@ -257,11 +276,25 @@ const normalizeData = (trends) => {
   return normalizedData
 }
 
-export default function Home({ trends }) {
+export default function Home({ trends, country }) {
   trends_twitter = normalizeData(trends);
   useEffect(makeDraggable);
   return (
     <div>
+      <Container  sx={{
+          my: 5,
+          mx: 5,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+          position: 'fixed'
+        }}>
+         
+          <Typography variant="h4" component="h1" gutterBottom sx={{color: 'white'}}>
+            {country}
+          </Typography>
+      </Container>
     </div>
   )
 }
