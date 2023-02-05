@@ -315,7 +315,7 @@ export default function Home({ trends, country }) {
       </Container>
       {modal ? <Modal props={modalData}/> : <></>}
       <Typography variant="body1" component="h1" gutterBottom sx={{color: 'white', position: "fixed", bottom: 20, left: 20}}>
-      Made with ♥ by 
+      Made with ♥ by &nbsp;
       <a target="_blank" href="https://github.com/floan" rel="norefferer noopener" style={{textDecoration: 'underline', color: 'white'}}>Fayez</a>,&nbsp;
       <a target="_blank" href="https://github.com/sgkolli535" rel="norefferer noopener" style={{textDecoration: 'underline', color: 'white'}}>Sumi</a>, &&nbsp; 
       <a target="_blank" href="https://github.com/sgkolli535" rel="norefferer noopener" style={{textDecoration: 'underline', color: 'white'}}>Yashvi</a>
