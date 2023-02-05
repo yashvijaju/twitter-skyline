@@ -51,7 +51,7 @@ var trends_twitter;
 function init() {
   // SCENE
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xbfd1e5);
+  scene.background = new THREE.Color(0x3fa4ff);
 
   // CAMERA
   camera = new THREE.PerspectiveCamera(
