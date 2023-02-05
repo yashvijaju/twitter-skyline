@@ -55,7 +55,7 @@ var trends_twitter;
 function init() {
   // SCENE
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x3fa4ff);
+  scene.background = new THREE.Color(0xf0a2d);
 
   // CAMERA
   camera = new THREE.PerspectiveCamera(
@@ -83,8 +83,8 @@ function init() {
   const bloomPass = new UnrealBloomPass(
     new THREE.Vector2(window.innerWidth, window.innerHeight),
     1.6, 
-    0,
-    0.8
+    0.6,
+    0.6
   );
   composer.addPass(bloomPass);
 
@@ -275,7 +275,7 @@ export default function Home({ trends, country }) {
           position: 'fixed'
         }}>
          
-          <Typography variant="h4" component="h1" gutterBottom sx={{color: 'black'}}>
+          <Typography variant="h4" component="h1" gutterBottom sx={{color: 'white'}}>
             {country}
           </Typography>
       </Container>
