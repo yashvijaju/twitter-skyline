@@ -1,11 +1,11 @@
 "use client"
 import Image from 'next/image';
 import { Inter } from '@next/font/google';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 import styles from '../app/page.module.css';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { FontLoader } from 'three/addons/loaders/FontLoader.js';
-import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { useEffect } from 'react';
 import axios from 'axios';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass';
@@ -13,13 +13,12 @@ import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer';
 import {UnrealBloomPass} from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 
 const inter = Inter({ subsets: ['latin'] })
-const loader = new FontLoader();
 
 
 // Fetch Data from Twitter API
 export async function getServerSideProps(context) {
   // Fetch data from external API
-  const url = `https://api.twitter.com/1.1/trends/place.json?id=`+context["query"]["country"]
+  const url = `https://api.twitter.com/1.1/trends/place.json?id=`+context["query"]["id"]
   const res = await axios.get(url, {
     headers: {
       Authorization: `Bearer ${process.env.AUTH_BEARER}`
@@ -27,7 +26,11 @@ export async function getServerSideProps(context) {
   });
 
   // Pass data to the page via props
-  return {props: {trends: res.data[0].trends}}
+  return {
+    props: {
+      trends: res.data[0].trends,
+      country: context["query"]["country"].replace("_"," ")
+    }}
 }
 
 
@@ -238,23 +241,7 @@ const makeDraggable = () => {
           max_count--;
         }
       }
-    }
-
-    loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
-
-      const geometry = new TextGeometry( 'Hello three.js!', {
-          font: font,
-          size: 80,
-          height: 5,
-          curveSegments: 12,
-          bevelEnabled: true,
-          bevelThickness: 10,
-          bevelSize: 8,
-          bevelOffset: 0,
-          bevelSegments: 5
-        } );
-    } );
-    
+    }    
     
     animate();
   })();
@@ -273,11 +260,25 @@ const normalizeData = (trends) => {
   return normalizedData
 }
 
-export default function Home({ trends }) {
+export default function Home({ trends, country }) {
   trends_twitter = normalizeData(trends);
   useEffect(makeDraggable);
   return (
     <div>
+      <Container  sx={{
+          my: 5,
+          mx: 5,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+          position: 'fixed'
+        }}>
+         
+          <Typography variant="h4" component="h1" gutterBottom sx={{color: 'black'}}>
+            {country}
+          </Typography>
+      </Container>
     </div>
   )
 }
