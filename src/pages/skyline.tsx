@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ['latin'] })
 // Fetch Data from Twitter API
 export async function getServerSideProps() {
   // Fetch data from external API
-  const url = `https://api.twitter.com/1.1/trends/place.json?id=2211096`
+  const url = `https://api.twitter.com/1.1/trends/place.json?id=2282863`
   const res = await axios.get(url, {
     headers: {
       Authorization: `Bearer ${process.env.AUTH_BEARER}`
@@ -35,8 +35,9 @@ raycaster,
 draggableObject;
 
 
-const width_floor = 50 * (7 + 1) // 7 bc days in a week
-const depth_floor = 50 * (52 + 1) // 52 bc weeks in a year
+const width_floor = 50 * (5 + 1) // 7 bc days in a week
+const depth_floor = 50 * (40 + 1) // 52 bc weeks in a year
+var trends_twitter;
 
 // Create Scene and lights
 function init() {
@@ -102,7 +103,7 @@ function init() {
 */
 function addObject(x, y, pos, color) {
   let object = new THREE.Mesh(
-    new THREE.BoxGeometry(x, y, 100),
+    new THREE.BoxGeometry(x, y, 50),
     new THREE.MeshPhongMaterial({ color: color })
   );
   object.position.set(pos.x, pos.y, pos.z);
@@ -171,17 +172,19 @@ const makeDraggable = () => {
     // Adding multiple objects
     let width_building = 10;
     let depth_building = 10;
+    var max_count = trends_twitter.length;
     for (var row = -(depth_floor/2)+50; row < (depth_floor/2)-depth_building; row += 75) {
       for (var col = -(width_floor/2)+50; col <= (width_floor/2)-width_building; col += 75) {
-        if (Math.random() > 0.3) {
+        if (Math.random() > 0.45 || max_count==0) {
           addObject(50, 0, { x: col, y: 50, z: row }, "#000000");
         } else {
-          let rand_num = Math.floor(Math.random() * 1000) * 0.5;
+          // let rand_num = Math.floor(Math.random() * 1000) * 0.5;
+          let rand_num = trends_twitter[max_count-1]["volume"]*20000;
           let blue_colors = ["#126ca3", '#1DA1F2']
           let rand_color = Math.floor(Math.random()*2)
           addObject(50, rand_num, { x: col, y: rand_num/2+50, z: row }, blue_colors[rand_color]);
+          max_count--;
         }
-
       }
     }
     
@@ -190,13 +193,12 @@ const makeDraggable = () => {
 }
 
 const normalizeData = (trends) => {
-  let sum = 0.1;
-  trends.forEach((trend) => sum += trend.tweet_volume);
+  let max = 0.0;
+  trends.forEach((trend) => max = Math.max(max, trend.tweet_volume));
   const normalizedData = trends.map((trend) => {
-    // console.log(`trend: ${trend.name}, vol: ${trend.tweet_volume}, sum: ${sum}`)
     return {
       name: trend.name,
-      volume: (trend.tweet_volume / sum) || 0.001,
+      volume: Math.min((trend.tweet_volume / max) || Math.random() * 0.01, 0.01 + Math.random() * 0.005),
       url: trend.url,
     }
   });
@@ -204,8 +206,7 @@ const normalizeData = (trends) => {
 }
 
 export default function Home({ trends }) {
-  trends = normalizeData(trends);
-  console.log(trends);
+  trends_twitter = normalizeData(trends);
   useEffect(makeDraggable);
   return (
     <div>
