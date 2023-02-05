@@ -110,7 +110,7 @@ function init() {
 
   // FLOOR
   let floor = new THREE.Mesh(
-    new THREE.BoxBufferGeometry(width_floor, 100, depth_floor),
+    new THREE.BoxBufferGeometry(width_floor, 150, depth_floor),
     new THREE.MeshPhongMaterial({ color: '#000000' })
   );
   floor.isDraggable = false;
@@ -228,13 +228,13 @@ const makeDraggable = () => {
     for (var row = -(depth_floor/2)+50; row < (depth_floor/2)-depth_building; row += 75) {
       for (var col = -(width_floor/2)+50; col <= (width_floor/2)-width_building; col += 75) {
         if (Math.random() > 0.45 || max_count==0) {
-          addObject(50, 0, { x: col, y: 50, z: row }, "#000000");
+          addObject(50, 0, { x: col, y: 75, z: row }, "#000000");
         } else {
           // let rand_num = Math.floor(Math.random() * 1000) * 0.5;
           let rand_num = trends_twitter[max_count-1]["volume"]*20000;
           let blue_colors = ["#126ca3", '#1DA1F2']
           let rand_color = Math.floor(Math.random()*2)
-          addClickableObject(50, rand_num, { x: col, y: rand_num/2+50, z: row }, blue_colors[rand_color], trends_twitter[max_count-1]);
+          addClickableObject(50, rand_num, { x: col, y: rand_num/2+75, z: row }, blue_colors[rand_color], trends_twitter[max_count-1]);
           max_count--;
         }
       }

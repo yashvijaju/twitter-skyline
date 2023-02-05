@@ -107,11 +107,11 @@ export default function Home({ countries }) {
             marginLeft: '-20px',
           }}>
             <FormControl fullWidth sx={{color: 'white', width: '500px', marginRight: '20px', position: 'relative'}}>
-              <InputLabel id="demo-simple-select-label" sx={{color: 'white'}}>{selectedCountry == 0 ? "Select a Country: " : ""}</InputLabel>
+              <InputLabel id="demo-simple-select-label" sx={{color: 'white', fontWeight: 'bold'}}>{selectedCountry == 0 ? "Select a Country: " : ""}</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                sx={{border: '5px solid #3FA4FF', color: 'white' }}
+                sx={{border: '5px solid #3FA4FF', color: 'white', fontWeight: 'bold' }}
                 onChange={(e) => {setSelectedCountry(e.target.value)}}
                 value={selectedCountry == 0 ? null : selectedCountry}
               >
@@ -121,7 +121,7 @@ export default function Home({ countries }) {
               </Select>
             </FormControl>
             <Link href={"/skyline?country="+selectedCountry} passHref style={{textDecoration: 'none'}}>
-              <Button variant="contained" sx={{height: '100%', backgroundColor: "#3fa4ff"}}>↳</Button>
+              <Button variant="contained" sx={{height: '100%', backgroundColor: "#3fa4ff", fontSize: "20px"}}>↳</Button>
             </Link>
           </Container>
         </Container>
