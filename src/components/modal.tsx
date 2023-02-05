@@ -1,6 +1,7 @@
 "use client"
 import * as React from 'react';
 import Router, { withRouter } from 'next/router'
+import Typography from '@mui/material/Typography';
 import './modal.css';
 import axios from 'axios';
 
@@ -32,7 +33,9 @@ export default function Modal({props}) {
         <div className='modal' />
         <div className='main'>
             <div className='content'>
-                {name}
+              <Typography variant="h6" component="h1" gutterBottom sx={{color: 'white'}}>
+              Trending: {name}
+            </Typography>
                 {url}
                 {tweetUrl}
             </div>

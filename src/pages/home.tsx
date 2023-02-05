@@ -40,7 +40,7 @@ export async function getServerSideProps() {
   });
 
   var countries_map = new Map();
-  res.data.forEach(function (curr_country) {
+  res.data.forEach(function (curr_country: { [x: string]: any; }) {
     if (curr_country["parentid"] != 1 && curr_country["country"] != '') countries_map.set(curr_country["country"],curr_country["parentid"])
   })
 
@@ -87,7 +87,7 @@ export default function Home({ countries }) {
 
   return (
     <>
-      <div ref={vantaRef} style={{zIndex: -1, position: "fixed", height: "100vh", width: "100vw", top: 0, left: 0, borderWidth: "2px", borderColor:"red"}}/>
+      <div ref={vantaRef} style={{margin: 0, zIndex: -1, position: "fixed", height: "100vh", width: "100vw", top: 0, left: 0, borderWidth: "2px", borderColor:"red"}}/>
       <div style={{zIndex: 2}}>
         <Container  sx={{
           my: 25,
@@ -132,6 +132,9 @@ export default function Home({ countries }) {
           </Container>
         </Container>
       </div>
+      <Typography variant="body1" component="h1" gutterBottom sx={{color: 'white', position: "fixed", bottom: 20, left: 20}}>
+      Made with ♥ by Fayez, Sumi, & Yashvi
+      </Typography>
     </>
   );
 }

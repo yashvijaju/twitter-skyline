@@ -15,6 +15,7 @@ import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer';
 import {UnrealBloomPass} from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 import Modal from '../components/modal';
 
+
 const inter = Inter({ subsets: ['latin'] })
 
 
@@ -252,6 +253,9 @@ export default function Home({ trends, country }) {
         found[0].object.userData['tweetUrl'] = tweetUrl;
         setModal(true);
         setModalData(found[0].object.userData);
+      } else {
+        setModal(false);
+        setModalData({});
       }
     });
 
@@ -322,14 +326,18 @@ export default function Home({ trends, country }) {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'flex-start',
-          position: 'fixed'
+          position: 'fixed',
+          top: 0,
+          left: 0
         }}>
-         
           <Typography variant="h4" component="h1" gutterBottom sx={{color: 'white'}}>
             {country}
           </Typography>
       </Container>
       {modal ? <Modal props={modalData}/> : <></>}
+      <Typography variant="body1" component="h1" gutterBottom sx={{color: 'white', position: "fixed", bottom: 20, left: 20}}>
+      Made with ♥ by Fayez, Sumi, & Yashvi
+      </Typography>
     </div>
   )
 }
