@@ -56,6 +56,21 @@ var trends_twitter;
 function init() {
   // SCENE
   scene = new THREE.Scene();
+  // scene.background = new THREE.Color(0xf0a2d);
+
+//   //Load background texture
+//   const texture = new THREE.TextureLoader().load('app/blue.jpeg');
+// const loader = new THREE.TextureLoader();
+// loader.load('https://drive.google.com/file/d/1il-4WSGlPSSvLnwzF65ePj1G2MqLzuF4/view?usp=sharing' , function(texture)
+//             {
+//              scene.background = texture;  
+//             });
+
+const gridHelper = new THREE.GridHelper( 10000, 50, '#3FA4FF', '#3FA4FF' );
+				gridHelper.position.y = - 150;
+				gridHelper.position.x = - 150;
+				scene.add( gridHelper );
+
   scene.background = new THREE.Color(0xf0a2d);
 
   // CAMERA
@@ -119,6 +134,7 @@ function init() {
   );
   floor.isDraggable = false;
   scene.add(floor);
+
 }
 
 /**
