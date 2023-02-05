@@ -229,6 +229,9 @@ export default function Home({ trends, country }) {
         // window.open(found[0].object.userData.url);
         setModal(true);
         setModalData(found[0].object.userData);
+      } else {
+        setModal(false);
+        setModalData({});
       }
     });
 
