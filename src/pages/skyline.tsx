@@ -4,10 +4,14 @@ import { Inter } from '@next/font/google';
 import styles from '../app/page.module.css';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { useEffect } from 'react';
 import axios from 'axios';
 
 const inter = Inter({ subsets: ['latin'] })
+const loader = new FontLoader();
+
 
 // Fetch Data from Twitter API
 export async function getServerSideProps() {
@@ -187,6 +191,22 @@ const makeDraggable = () => {
         }
       }
     }
+
+    loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
+
+      const geometry = new TextGeometry( 'Hello three.js!', {
+        font: font,
+        size: 80,
+        height: 5,
+        curveSegments: 12,
+        bevelEnabled: true,
+        bevelThickness: 10,
+        bevelSize: 8,
+        bevelOffset: 0,
+        bevelSegments: 5
+      } );
+    } );
+    
     
     animate();
   })();
