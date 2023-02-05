@@ -132,6 +132,9 @@ export default function Home({ countries }) {
           </Container>
         </Container>
       </div>
+      <Typography variant="body1" component="h1" gutterBottom sx={{color: 'white', position: "fixed", bottom: 20, left: 20}}>
+      Made with ♥ by Fayez, Sumi, & Yashvi
+      </Typography>
     </>
   );
 }
