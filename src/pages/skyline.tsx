@@ -14,7 +14,7 @@ import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass';
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer';
 import {UnrealBloomPass} from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 import Modal from '../components/modal';
-
+import '../css/skyline.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
