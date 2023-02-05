@@ -51,7 +51,20 @@ var trends_twitter;
 function init() {
   // SCENE
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x3fa4ff);
+  // scene.background = new THREE.Color(0xf0a2d);
+
+//   //Load background texture
+//   const texture = new THREE.TextureLoader().load('app/blue.jpeg');
+// const loader = new THREE.TextureLoader();
+// loader.load('https://drive.google.com/file/d/1il-4WSGlPSSvLnwzF65ePj1G2MqLzuF4/view?usp=sharing' , function(texture)
+//             {
+//              scene.background = texture;  
+//             });
+
+const gridHelper = new THREE.GridHelper( 10000, 50, '#3FA4FF', '#3FA4FF' );
+				gridHelper.position.y = - 150;
+				gridHelper.position.x = - 150;
+				scene.add( gridHelper );
 
   // CAMERA
   camera = new THREE.PerspectiveCamera(
@@ -79,8 +92,8 @@ function init() {
   const bloomPass = new UnrealBloomPass(
     new THREE.Vector2(window.innerWidth, window.innerHeight),
     1.6, 
-    0,
-    0.8
+    0.6,
+    0.6,
   );
   composer.addPass(bloomPass);
 
@@ -113,6 +126,7 @@ function init() {
   );
   floor.isDraggable = false;
   scene.add(floor);
+
 }
 
 /**
