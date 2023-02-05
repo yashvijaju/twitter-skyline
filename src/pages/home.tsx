@@ -138,7 +138,7 @@ export default function Home({ countries }) {
       Made with ♥ by &nbsp;
       <a target="_blank" href="https://github.com/floan" rel="norefferer noopener" style={{textDecoration: 'underline', color: 'white'}}>Fayez</a>,&nbsp;
       <a target="_blank" href="https://github.com/sgkolli535" rel="norefferer noopener" style={{textDecoration: 'underline', color: 'white'}}>Sumi</a>, &&nbsp; 
-      <a target="_blank" href="https://github.com/sgkolli535" rel="norefferer noopener" style={{textDecoration: 'underline', color: 'white'}}>Yashvi</a>
+      <a target="_blank" href="https://github.com/yashvijaju" rel="norefferer noopener" style={{textDecoration: 'underline', color: 'white'}}>Yashvi</a>
       </Typography>
     </>
   );
