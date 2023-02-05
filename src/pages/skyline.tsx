@@ -37,6 +37,7 @@ export async function getServerSideProps(context) {
 // Global variables
 let scene,
 camera,
+floor,
 renderer,
 controls,
 clickMouse,
@@ -64,7 +65,7 @@ function init() {
     0.1,
     3500
   );
-  camera.position.set(450, 200, 50);
+  camera.position.set(1100, 250, 100);
   camera.zoom = 0.7;
   camera.updateProjectionMatrix();
 
@@ -112,7 +113,7 @@ function init() {
   objectClicked = new THREE.Vector2();
 
   // FLOOR
-  let floor = new THREE.Mesh(
+  floor = new THREE.Mesh(
     new THREE.BoxBufferGeometry(width_floor, 150, depth_floor),
     new THREE.MeshPhongMaterial({ color: '#000000' })
   );
