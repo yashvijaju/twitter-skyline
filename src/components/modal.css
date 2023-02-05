@@ -1,0 +1,28 @@
+.modal, .main {
+    height: 90vh;
+    margin: 5vh 2vw;
+    width: 30vw;
+    position: absolute;
+    right: 0;
+    border-radius: 30px;
+    display: block;
+}
+
+.modal {
+    background-color: black;
+    opacity: 0.4;
+}
+
+.main {
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    opacity: 1;
+    z-index: 100;
+    position: absolute;
+    display: inline-block;
+}
+
+.content {
+    padding: 5% 5%;
+}
