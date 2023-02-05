@@ -126,9 +126,11 @@ export default function Home({ countries }) {
                 ))}
               </Select>
             </FormControl>
-            <Link href={"/skyline?country="+selectedCountry.replace(/ /g,"_")+"&id="+selectedCountryId} passHref style={{textDecoration: 'none'}}>
-              <Button variant="contained" sx={{height: '100%', backgroundColor: "#3fa4ff", fontSize: "20px"}}>↳</Button>
-            </Link>
+            {
+              selectedCountry != "" && <Link href={"/skyline?country="+selectedCountry.replace(/ /g,"_")+"&id="+selectedCountryId} passHref style={{textDecoration: 'none'}}>
+                <Button variant="contained" sx={{height: '100%', backgroundColor: "#3fa4ff", fontSize: "20px"}}>↳</Button>
+              </Link>
+            }
           </Container>
         </Container>
       </div>
