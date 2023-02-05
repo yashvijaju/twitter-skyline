@@ -197,7 +197,7 @@ const makeDraggable = () => {
     objectClicked.y = -(event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(objectClicked , camera);
     const found = raycaster.intersectObjects(scene.children, true);
-    if (found.length) {
+    if (found.length && found[0].object.userData.url) {
       console.log(found[0].object.userData);
       window.open(found[0].object.userData.url);
     }
